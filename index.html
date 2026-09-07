@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arunachal JobMate — Current Jobs</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f7fb;color:#172033}
+header{background:linear-gradient(135deg,#173b6c,#245d9c);color:white;padding:24px 18px 22px}
+h1{margin:0 0 6px;font-size:27px}.sub{opacity:.9;font-size:14px}
+.wrap{max-width:760px;margin:auto}.controls{padding:14px 0;display:flex;gap:8px;flex-wrap:wrap}
+button{border:0;border-radius:999px;padding:9px 14px;background:white;box-shadow:0 1px 5px #0001;color:#24344d;font-weight:600}
+button.active{background:#173b6c;color:white}
+.card{background:white;border-radius:16px;margin:10px 0;padding:17px;box-shadow:0 3px 14px #17203312}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.org{font-size:12px;color:#64748b;font-weight:700}
+.title{font-size:19px;font-weight:750;margin:5px 0 8px}.status{font-size:12px;font-weight:800;padding:6px 9px;border-radius:999px;white-space:nowrap}
+.open{background:#dcfce7;color:#166534}.admit{background:#ede9fe;color:#6d28d9}.result{background:#fef3c7;color:#92400e}.closed{background:#fee2e2;color:#991b1b}
+.meta{font-size:13px;color:#52627a;line-height:1.6}.details{margin-top:12px;padding-top:12px;border-top:1px solid #edf0f5;display:none}
+.details.show{display:block}.source{display:inline-block;margin-top:10px;text-decoration:none;background:#173b6c;color:white;padding:9px 12px;border-radius:9px;font-size:13px;font-weight:700}
+.note{font-size:12px;color:#667085;margin:16px 2px 30px;line-height:1.5}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>🏔️ Arunachal JobMate</h1><div class="sub">Current Arunachal Pradesh government recruitment & exam updates</div></div></header>
+<main class="wrap">
+<div class="controls">
+<button class="active" onclick="filterJobs('ALL',this)">All</button>
+<button onclick="filterJobs('APSSB',this)">APSSB</button>
+<button onclick="filterJobs('APPSC',this)">APPSC</button>
+</div>
+<section id="jobs"></section>
+<p class="note">Build: v0.6.6 working feed prototype • Statuses are based on the latest official-source information available to this build. Always open the official notice before applying. This file is not yet a public website.</p>
+</main>
+<script>
+const jobs=[
+{org:"APSSB",title:"Combined Higher Secondary Level Examination — 2026",status:"ADMIT CARD",cls:"admit",info:"Admit-card window is active. Application period has already closed.",source:"https://apssb.nic.in/Index/admit_card"},
+{org:"APSSB",title:"Combined Graduate Level Examination — 2026",status:"RESULT / VERIFICATION",cls:"result",info:"Recent official updates include provisional result and document-verification schedule.",source:"https://apssb.nic.in/Index/notice"},
+{org:"APSSB",title:"Special Recruitment Drive for Uniformed Services Combined Examination — 2026",status:"RESULT",cls:"result",info:"Final result notice has been published; this is not an open application.",source:"https://apssb.nic.in/Index/results"},
+{org:"APPSC",title:"Common Group-A & Group-B Gazetted Technical Posts — 2026 (Part-I)",status:"APPLY NOW",cls:"open",info:"Official advertisement lists an application deadline of 30 September 2026.",source:"https://appsc.gov.in/Index/sub_page/doc2195/Advertisements"},
+{org:"APPSC",title:"Trained Graduate Teacher Examination — 2026",status:"RECRUITMENT / ELIGIBILITY",cls:"open",info:"Official APPSC notifications include the TGTE-2026 eligibility criteria and recruitment updates.",source:"https://appsc.gov.in/Index/common_sub_page/doc12233/Notifications"},
+{org:"APPSC",title:"Medical Specialist Recruitment — 2026",status:"RECRUITMENT",cls:"open",info:"Official advertisement is listed for Junior Specialist (Allopathy) and Junior Dental Specialist.",source:"https://appsc.gov.in/Index/sub_page/doc2195/Advertisements"}
+];
+function render(list){document.getElementById('jobs').innerHTML=list.map((j,i)=>`
+<article class="card">
+<div class="row"><div><div class="org">${j.org}</div><div class="title">${j.title}</div></div><span class="status ${j.cls}">${j.status}</span></div>
+<div class="meta">${j.info}</div>
+<div id="d${i}" class="details"><b>Source:</b> Official ${j.org} page<br><a class="source" href="${j.source}" target="_blank" rel="noopener">Open official source ↗</a></div>
+<button style="margin-top:12px" onclick="document.getElementById('d${i}').classList.toggle('show')">View details</button>
+</article>`).join('')}
+function filterJobs(org,btn){document.querySelectorAll('.controls button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render(org==='ALL'?jobs:jobs.filter(j=>j.org===org))}
+render(jobs);
+</script>
+</body>
+</html>
